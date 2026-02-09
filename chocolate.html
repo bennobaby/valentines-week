@@ -42,7 +42,8 @@
 
         @keyframes fall {
             to {
-                top: 350px;
+                /* Use calc to fall to bottom of container */
+                top: calc(100% - 40px);
             }
         }
 
@@ -144,68 +145,63 @@
             }
         }
 
-        /* Mobile responsive styles for game - iPhone optimized */
+        /* Mobile responsive - Dynamic for ALL iPhones */
         @media (max-width: 600px) {
             .game-area {
-                height: 260px;
+                /* Dynamic height based on viewport */
+                height: clamp(220px, 35vh, 320px);
                 border-radius: 15px;
                 margin: 0.25rem 0;
             }
 
             .basket {
-                width: 60px;
-                height: 45px;
-                font-size: 2.5rem;
-                line-height: 45px;
+                width: clamp(50px, 15vw, 70px);
+                height: clamp(40px, 12vw, 55px);
+                font-size: clamp(2rem, 7vw, 3rem);
+                line-height: clamp(40px, 12vw, 55px);
             }
 
             .falling-item {
-                font-size: 1.6rem;
+                font-size: clamp(1.4rem, 5vw, 2rem);
             }
 
             .stat-box {
-                padding: 0.35rem 0.9rem;
-                font-size: 0.75rem;
+                padding: clamp(0.25rem, 1vw, 0.5rem) clamp(0.6rem, 3vw, 1.25rem);
+                font-size: clamp(0.65rem, 2.5vw, 0.9rem);
             }
 
             .lives {
-                font-size: 1.1rem;
+                font-size: clamp(1rem, 4vw, 1.5rem);
+            }
+
+            .start-overlay {
+                padding: clamp(0.5rem, 2vw, 1rem);
             }
 
             .start-overlay h3 {
-                font-size: 1rem;
+                font-size: clamp(0.9rem, 3.5vw, 1.2rem);
                 margin-bottom: 0.25rem;
             }
 
             .start-overlay p {
-                font-size: 0.75rem;
-                margin: 0.15rem 0;
-            }
-
-            .start-overlay p:first-of-type {
-                font-size: 2rem !important;
+                font-size: clamp(0.65rem, 2.5vw, 0.9rem);
+                margin: clamp(0.1rem, 0.5vw, 0.2rem) 0;
             }
 
             .start-btn {
-                padding: 0.6rem 1.8rem;
-                font-size: 1rem;
-                margin-top: 0.5rem;
+                padding: clamp(0.5rem, 2vw, 0.9rem) clamp(1.5rem, 6vw, 2.5rem);
+                font-size: clamp(0.9rem, 3vw, 1.2rem);
+                margin-top: clamp(0.25rem, 1vw, 0.5rem);
             }
 
             .combo {
-                font-size: 1.1rem;
-            }
-
-            @keyframes fall {
-                to {
-                    top: 260px;
-                }
+                font-size: clamp(1rem, 4vw, 1.4rem);
             }
         }
 
         @media (max-width: 400px) {
             .game-area {
-                height: 240px;
+                height: clamp(180px, 32vh, 240px);
             }
 
             .basket {
