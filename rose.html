@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌹 Rose Day - Memory Match Game</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff6b9d 0%, #e91e63 50%, #ff5252 100%);
+        }
+
+        .game-container {
+            margin: 1.5rem 0;
+        }
+
+        .game-title {
+            font-size: 1.2rem;
+            color: #c44569;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat {
+            background: rgba(255, 107, 157, 0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(145deg, #c44569, #ff6b9d);
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: all 0.3s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+
+        .memory-card.flipped {
+            background: white;
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.matched {
+            background: linear-gradient(145deg, #4CAF50, #8BC34A);
+            animation: matchPulse 0.5s;
+        }
+
+        .memory-card .front {
+            position: absolute;
+            backface-visibility: hidden;
+        }
+
+        .memory-card .back {
+            position: absolute;
+            backface-visibility: hidden;
+            transform: rotateY(180deg);
+        }
+
+        @keyframes matchPulse {
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        .game-message {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            min-height: 30px;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #c44569, #ff6b9d);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .win-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(196, 69, 105, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 100;
+            color: white;
+        }
+
+        .win-overlay.active {
+            display: flex;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .win-emoji {
+            font-size: 5rem;
+            animation: bounce 0.6s infinite alternate;
+        }
+
+        @keyframes bounce {
+            to {
+                transform: translateY(-20px);
+            }
+        }
+
+        .win-title {
+            font-size: 2.5rem;
+            margin: 1rem 0;
+        }
+
+        .win-score {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="floating-hearts" id="floating-hearts"></div>
+    <div class="container">
+        <div class="card">
+            <span class="day-emoji">🌹</span>
+            <p class="day-date">February 7, 2026</p>
+            <h1 class="day-title">Rose Day</h1>
+            <p class="day-message">Match the flowers to win! Find all pairs to complete the bouquet of love! 💐</p>
+
+            <div class="game-container">
+                <p class="game-title">🎮 Memory Match Game</p>
+                <div class="game-stats">
+                    <div class="stat">Moves: <span id="moves">0</span></div>
+                    <div class="stat">Pairs: <span id="pairs">0</span>/8</div>
+                </div>
+                <div class="memory-grid" id="gameGrid"></div>
+                <p class="game-message" id="gameMessage">Click any card to start!</p>
+                <button class="restart-btn" onclick="initGame()">🔄 New Game</button>
+            </div>
+
+            <div class="nav">
+                <a href="index.html" class="nav-link">🏠 Home</a>
+                <a href="propose.html" class="nav-link">Next: Propose Day 💍</a>
+            </div>
+        </div>
+        <nav class="week-nav" id="week-nav"></nav>
+    </div>
+
+    <div class="win-overlay" id="winOverlay">
+        <span class="win-emoji">💐🌹💐</span>
+        <h2 class="win-title">You Did It!</h2>
+        <p class="win-score" id="winScore">Completed in 0 moves!</p>
+        <button class="restart-btn" onclick="closeWin()" style="margin-top: 2rem;">Play Again 🎮</button>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        const flowers = ['🌹', '🌷', '🌸', '🌺', '🌻', '💐', '🌼', '🏵️'];
+        let cards = [], flipped = [], matched = [], moves = 0, canFlip = true;
+
+        function shuffle(arr) { return arr.sort(() => Math.random() - 0.5); }
+
+        function initGame() {
+            const grid = document.getElementById('gameGrid');
+            grid.innerHTML = '';
+            cards = shuffle([...flowers, ...flowers]);
+            flipped = []; matched = []; moves = 0; canFlip = true;
+            document.getElementById('moves').textContent = '0';
+            document.getElementById('pairs').textContent = '0';
+            document.getElementById('gameMessage').textContent = 'Click any card to start!';
+            document.getElementById('winOverlay').classList.remove('active');
+
+            cards.forEach((flower, i) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.dataset.index = i;
+                card.dataset.flower = flower;
+                card.innerHTML = `<span class="front">❓</span><span class="back">${flower}</span>`;
+                card.onclick = () => flipCard(card);
+                grid.appendChild(card);
+            });
+        }
+
+        function flipCard(card) {
+            if (!canFlip || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+
+            card.classList.add('flipped');
+            card.querySelector('.front').textContent = card.dataset.flower;
+            flipped.push(card);
+
+            if (flipped.length === 2) {
+                moves++;
+                document.getElementById('moves').textContent = moves;
+                canFlip = false;
+
+                if (flipped[0].dataset.flower === flipped[1].dataset.flower) {
+                    flipped.forEach(c => c.classList.add('matched'));
+                    matched.push(...flipped);
+                    document.getElementById('pairs').textContent = matched.length / 2;
+                    document.getElementById('gameMessage').textContent = '🎉 Match found!';
+                    flipped = [];
+                    canFlip = true;
+
+                    if (matched.length === 16) {
+                        setTimeout(() => {
+                            document.getElementById('winOverlay').classList.add('active');
+                            document.getElementById('winScore').textContent = `Completed in ${moves} moves!`;
+                        }, 500);
+                    }
+                } else {
+                    document.getElementById('gameMessage').textContent = 'Try again...';
+                    setTimeout(() => {
+                        flipped.forEach(c => { c.classList.remove('flipped'); c.querySelector('.front').textContent = '❓'; });
+                        flipped = [];
+                        canFlip = true;
+                    }, 1000);
+                }
+            }
+        }
+
+        function closeWin() { document.getElementById('winOverlay').classList.remove('active'); initGame(); }
+        initGame();
+    </script>
+</body>
+
+</html>

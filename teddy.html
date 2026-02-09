@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧸 Teddy Day - Dress Up Your Teddy!</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #DEB887 0%, #D2691E 50%, #F4A460 100%);
+        }
+
+        .teddy-builder {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .teddy-display {
+            width: 200px;
+            height: 250px;
+            background: linear-gradient(145deg, #FFE4C4, #FFDAB9);
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .teddy-body {
+            font-size: 6rem;
+            position: relative;
+        }
+
+        .teddy-accessory {
+            position: absolute;
+            font-size: 2.5rem;
+            transition: all 0.3s;
+        }
+
+        .hat {
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .glasses {
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+        }
+
+        .bow {
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .item-btn {
+            background: white;
+            border: 3px solid transparent;
+            padding: 0.8rem;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1.8rem;
+            transition: all 0.3s;
+            min-width: 60px;
+        }
+
+        .item-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .item-btn.selected {
+            border-color: #D2691E;
+            background: #FFF8DC;
+        }
+
+        .options-panel {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 1rem;
+            border-radius: 20px;
+        }
+
+        .options-row {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-label {
+            font-weight: bold;
+            color: #8B4513;
+            font-size: 0.9rem;
+            margin: 0.5rem 0 0.3rem;
+        }
+
+        .teddy-name {
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 1rem;
+            width: 150px;
+            margin-top: 0.5rem;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #D2691E, #8B4513);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .save-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .hug-game {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+        }
+
+        .hug-target {
+            font-size: 4rem;
+            cursor: pointer;
+            transition: transform 0.1s;
+            display: inline-block;
+        }
+
+        .hug-target:active {
+            transform: scale(0.9);
+        }
+
+        .hug-bar {
+            height: 20px;
+            background: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .hug-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFB6C1, #FF69B4, #FF1493);
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        .hug-message {
+            min-height: 30px;
+            font-weight: bold;
+            color: #8B4513;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="floating-hearts" id="floating-hearts"></div>
+    <div class="container">
+        <div class="card">
+            <span class="day-emoji">🧸</span>
+            <p class="day-date">February 10, 2026</p>
+            <h1 class="day-title">Teddy Day</h1>
+            <p class="day-message">Create your perfect teddy and give it lots of hugs! 🤗</p>
+
+            <div class="teddy-builder">
+                <div class="teddy-display">
+                    <div class="teddy-body">
+                        🧸
+                        <span class="teddy-accessory hat" id="hatSlot"></span>
+                        <span class="teddy-accessory glasses" id="glassesSlot"></span>
+                        <span class="teddy-accessory bow" id="bowSlot"></span>
+                    </div>
+                    <input type="text" class="teddy-name" id="teddyName" placeholder="Name your teddy" maxlength="15">
+                </div>
+
+                <div class="options-panel">
+                    <p class="category-label">🎩 Hats</p>
+                    <div class="options-row">
+                        <button class="item-btn" onclick="setItem('hat', '')">❌</button>
+                        <button class="item-btn" onclick="setItem('hat', '🎩')">🎩</button>
+                        <button class="item-btn" onclick="setItem('hat', '👑')">👑</button>
+                        <button class="item-btn" onclick="setItem('hat', '🎀')">🎀</button>
+                        <button class="item-btn" onclick="setItem('hat', '🌸')">🌸</button>
+                    </div>
+                    <p class="category-label">👓 Glasses</p>
+                    <div class="options-row">
+                        <button class="item-btn" onclick="setItem('glasses', '')">❌</button>
+                        <button class="item-btn" onclick="setItem('glasses', '👓')">👓</button>
+                        <button class="item-btn" onclick="setItem('glasses', '🕶️')">🕶️</button>
+                        <button class="item-btn" onclick="setItem('glasses', '🥽')">🥽</button>
+                    </div>
+                    <p class="category-label">🎀 Accessories</p>
+                    <div class="options-row">
+                        <button class="item-btn" onclick="setItem('bow', '')">❌</button>
+                        <button class="item-btn" onclick="setItem('bow', '🎀')">🎀</button>
+                        <button class="item-btn" onclick="setItem('bow', '💝')">💝</button>
+                        <button class="item-btn" onclick="setItem('bow', '🌹')">🌹</button>
+                        <button class="item-btn" onclick="setItem('bow', '⭐')">⭐</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hug-game">
+                <p style="font-weight: bold; margin-bottom: 0.5rem;">🤗 Hug-A-Thon! Tap the teddy fast!</p>
+                <div class="hug-target" id="hugTarget" onclick="givehug()">🧸</div>
+                <div class="hug-bar">
+                    <div class="hug-fill" id="hugFill"></div>
+                </div>
+                <p class="hug-message" id="hugMessage">Tap to give hugs!</p>
+                <p style="font-size: 0.9rem;">Hugs: <span id="hugCount">0</span> | Best: <span id="hugBest">0</span></p>
+            </div>
+
+            <div class="nav">
+                <a href="chocolate.html" class="nav-link">← Chocolate Day 🍫</a>
+                <a href="promise.html" class="nav-link">Next: Promise Day 🤝</a>
+            </div>
+        </div>
+        <nav class="week-nav" id="week-nav"></nav>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        function setItem(slot, emoji) {
+            document.getElementById(slot + 'Slot').textContent = emoji;
+        }
+
+        let hugs = 0, hugDecay, hugBest = localStorage.getItem('hugBest') || 0;
+        document.getElementById('hugBest').textContent = hugBest;
+        const messages = ['Nice!', 'Warm hugs!', 'So cozy!', 'Amazing!', '💕💕💕', 'SUPER HUG!', '🔥 ON FIRE!'];
+
+        function givehug() {
+            hugs++;
+            document.getElementById('hugCount').textContent = hugs;
+            document.getElementById('hugTarget').style.transform = 'scale(1.2)';
+            setTimeout(() => document.getElementById('hugTarget').style.transform = 'scale(1)', 100);
+
+            const fill = Math.min(hugs * 2, 100);
+            document.getElementById('hugFill').style.width = fill + '%';
+
+            if (hugs > hugBest) {
+                hugBest = hugs;
+                localStorage.setItem('hugBest', hugBest);
+                document.getElementById('hugBest').textContent = hugBest;
+            }
+
+            document.getElementById('hugMessage').textContent = messages[Math.min(Math.floor(hugs / 10), messages.length - 1)];
+
+            clearTimeout(hugDecay);
+            hugDecay = setTimeout(() => {
+                if (hugs > 0) {
+                    hugs = Math.max(0, hugs - 5);
+                    document.getElementById('hugCount').textContent = hugs;
+                    document.getElementById('hugFill').style.width = Math.min(hugs * 2, 100) + '%';
+                }
+            }, 2000);
+        }
+    </script>
+</body>
+
+</html>

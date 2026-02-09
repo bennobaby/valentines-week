@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍫 Chocolate Day - Catch the Chocolates!</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #A0522D 100%);
+        }
+
+        .game-area {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 1rem 0;
+            cursor: none;
+            touch-action: none;
+        }
+
+        .basket {
+            position: absolute;
+            bottom: 10px;
+            width: 70px;
+            height: 50px;
+            font-size: 3rem;
+            text-align: center;
+            line-height: 50px;
+            transition: left 0.05s;
+        }
+
+        .falling-item {
+            position: absolute;
+            font-size: 2rem;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                top: 350px;
+            }
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .stat-box {
+            background: rgba(139, 69, 19, 0.3);
+            padding: 0.5rem 1.5rem;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+
+        .start-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(139, 69, 19, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            border-radius: 20px;
+            z-index: 10;
+        }
+
+        .start-overlay.hidden {
+            display: none;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #D2691E, #8B4513);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 30px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .game-over {
+            display: none;
+        }
+
+        .game-over.active {
+            display: flex;
+        }
+
+        .lives {
+            font-size: 1.5rem;
+        }
+
+        .combo {
+            position: absolute;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: gold;
+            animation: comboFade 1s forwards;
+            pointer-events: none;
+        }
+
+        @keyframes comboFade {
+            to {
+                opacity: 0;
+                transform: translateY(-30px) scale(1.5);
+            }
+        }
+
+        .power-up {
+            animation: glow 0.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            to {
+                filter: drop-shadow(0 0 10px gold);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="floating-hearts" id="floating-hearts"></div>
+    <div class="container">
+        <div class="card">
+            <span class="day-emoji">🍫</span>
+            <p class="day-date">February 9, 2026</p>
+            <h1 class="day-title">Chocolate Day</h1>
+            <p class="day-message">Catch the falling chocolates! Avoid the 🥦 vegetables! 🎮</p>
+
+            <div class="game-stats">
+                <div class="stat-box">Score: <span id="score">0</span></div>
+                <div class="stat-box">High: <span id="highScore">0</span></div>
+                <div class="stat-box lives" id="lives">❤️❤️❤️</div>
+            </div>
+
+            <div class="game-area" id="gameArea">
+                <div class="basket" id="basket">🧺</div>
+
+                <div class="start-overlay" id="startOverlay">
+                    <p style="font-size: 3rem;">🍫</p>
+                    <h3>Catch the Chocolates!</h3>
+                    <p>Move with mouse/touch</p>
+                    <p>🍫🍬🧁 = +10 points</p>
+                    <p>⭐ = Power-up!</p>
+                    <p>🥦 = Lose a life!</p>
+                    <button class="start-btn" onclick="startGame()">▶️ START</button>
+                </div>
+
+                <div class="start-overlay game-over hidden" id="gameOver">
+                    <p style="font-size: 3rem;">😢</p>
+                    <h3>Game Over!</h3>
+                    <p>Final Score: <span id="finalScore">0</span></p>
+                    <button class="start-btn" onclick="startGame()">🔄 Play Again</button>
+                </div>
+            </div>
+
+            <div class="nav">
+                <a href="propose.html" class="nav-link">← Propose Day 💍</a>
+                <a href="teddy.html" class="nav-link">Next: Teddy Day 🧸</a>
+            </div>
+        </div>
+        <nav class="week-nav" id="week-nav"></nav>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        const gameArea = document.getElementById('gameArea');
+        const basket = document.getElementById('basket');
+        const scoreEl = document.getElementById('score');
+        const livesEl = document.getElementById('lives');
+
+        let score = 0, lives = 3, gameLoop, spawnLoop, isPlaying = false;
+        let highScore = localStorage.getItem('chocoHighScore') || 0;
+        document.getElementById('highScore').textContent = highScore;
+
+        const treats = ['🍫', '🍬', '🧁', '🍪', '🍩', '🎂'];
+        const bads = ['🥦', '🥬'];
+
+        function moveBasket(x) {
+            const rect = gameArea.getBoundingClientRect();
+            let posX = x - rect.left - 35;
+            posX = Math.max(0, Math.min(posX, rect.width - 70));
+            basket.style.left = posX + 'px';
+        }
+
+        gameArea.addEventListener('mousemove', e => moveBasket(e.clientX));
+        gameArea.addEventListener('touchmove', e => { e.preventDefault(); moveBasket(e.touches[0].clientX); }, { passive: false });
+
+        function spawnItem() {
+            if (!isPlaying) return;
+            const item = document.createElement('div');
+            item.className = 'falling-item';
+
+            const rand = Math.random();
+            if (rand < 0.15) { item.textContent = bads[Math.floor(Math.random() * bads.length)]; item.dataset.type = 'bad'; }
+            else if (rand < 0.2) { item.textContent = '⭐'; item.dataset.type = 'star'; item.classList.add('power-up'); }
+            else { item.textContent = treats[Math.floor(Math.random() * treats.length)]; item.dataset.type = 'good'; }
+
+            item.style.left = Math.random() * (gameArea.offsetWidth - 40) + 'px';
+            item.style.top = '-40px';
+            const duration = 2 + Math.random() * 2;
+            item.style.animationDuration = duration + 's';
+            gameArea.appendChild(item);
+
+            setTimeout(() => { if (item.parentNode) item.remove(); }, duration * 1000);
+        }
+
+        function checkCollisions() {
+            if (!isPlaying) return;
+            const basketRect = basket.getBoundingClientRect();
+            document.querySelectorAll('.falling-item').forEach(item => {
+                const itemRect = item.getBoundingClientRect();
+                if (itemRect.bottom >= basketRect.top && itemRect.top <= basketRect.bottom &&
+                    itemRect.right >= basketRect.left && itemRect.left <= basketRect.right) {
+
+                    if (item.dataset.type === 'good') { score += 10; showCombo('+10', itemRect); }
+                    else if (item.dataset.type === 'star') { score += 50; showCombo('+50 ⭐', itemRect); }
+                    else if (item.dataset.type === 'bad') { lives--; updateLives(); if (lives <= 0) endGame(); }
+
+                    scoreEl.textContent = score;
+                    item.remove();
+                }
+            });
+        }
+
+        function showCombo(text, rect) {
+            const combo = document.createElement('div');
+            combo.className = 'combo';
+            combo.textContent = text;
+            combo.style.left = (rect.left - gameArea.getBoundingClientRect().left) + 'px';
+            combo.style.top = (rect.top - gameArea.getBoundingClientRect().top) + 'px';
+            gameArea.appendChild(combo);
+            setTimeout(() => combo.remove(), 1000);
+        }
+
+        function updateLives() { livesEl.textContent = '❤️'.repeat(lives) + '🖤'.repeat(3 - lives); }
+
+        function startGame() {
+            document.getElementById('startOverlay').classList.add('hidden');
+            document.getElementById('gameOver').classList.add('hidden');
+            document.querySelectorAll('.falling-item').forEach(i => i.remove());
+            score = 0; lives = 3; isPlaying = true;
+            scoreEl.textContent = '0';
+            updateLives();
+            gameLoop = setInterval(checkCollisions, 50);
+            spawnLoop = setInterval(spawnItem, 800);
+        }
+
+        function endGame() {
+            isPlaying = false;
+            clearInterval(gameLoop);
+            clearInterval(spawnLoop);
+            document.getElementById('finalScore').textContent = score;
+            if (score > highScore) { highScore = score; localStorage.setItem('chocoHighScore', highScore); document.getElementById('highScore').textContent = highScore; }
+            document.getElementById('gameOver').classList.remove('hidden');
+            document.getElementById('gameOver').classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

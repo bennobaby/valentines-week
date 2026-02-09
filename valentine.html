@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❤️ Valentine's Day - The Big Question!</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 50%, #ff6b6b 100%);
+        }
+
+        .valentine-heart {
+            font-size: 5rem;
+            animation: heartBeat 1s ease-in-out infinite;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes heartBeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            25% {
+                transform: scale(1.1);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+
+            75% {
+                transform: scale(1.15);
+            }
+        }
+
+        .proposal-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #c44569;
+            margin: 1rem 0;
+            line-height: 1.4;
+        }
+
+        .valentine-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            font-size: 1.4rem;
+            padding: 1.2rem 3.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.15);
+            box-shadow: 0 12px 35px rgba(76, 175, 80, 0.5);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+            font-size: 1.4rem;
+            padding: 1.2rem 3.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            position: relative;
+            transition: none;
+        }
+
+        .love-quiz {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+        }
+
+        .quiz-question {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid transparent;
+            padding: 0.8rem 1rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            color: white;
+        }
+
+        .quiz-option:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateX(5px);
+        }
+
+        .quiz-option.correct {
+            background: rgba(76, 175, 80, 0.5);
+            border-color: #4CAF50;
+        }
+
+        .quiz-option.wrong {
+            background: rgba(244, 67, 54, 0.5);
+            border-color: #f44336;
+        }
+
+        .quiz-progress {
+            display: flex;
+            gap: 0.3rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .progress-dot.done {
+            background: #4CAF50;
+        }
+
+        .progress-dot.current {
+            background: white;
+            animation: pulse 1s infinite;
+        }
+
+        .compatibility {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff6b9d, #ff9a9e);
+            z-index: 1000;
+        }
+
+        .celebration.active {
+            display: flex;
+        }
+
+        .celebration-emoji {
+            font-size: 6rem;
+            animation: celebrationBounce 0.5s ease infinite alternate;
+        }
+
+        @keyframes celebrationBounce {
+            from {
+                transform: scale(1) rotate(-5deg);
+            }
+
+            to {
+                transform: scale(1.2) rotate(5deg);
+            }
+        }
+
+        .celebration-title {
+            font-size: 2.5rem;
+            color: white;
+            font-weight: bold;
+            margin: 1rem 0;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .celebration-msg {
+            font-size: 1.3rem;
+            color: white;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confettiFall 3s linear infinite;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .close-celebration {
+            background: white;
+            color: #c44569;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="floating-hearts" id="floating-hearts"></div>
+    <div class="container">
+        <div class="card">
+            <span class="valentine-heart">❤️</span>
+            <p class="day-date">February 14, 2026</p>
+            <h1 class="day-title">Valentine's Day</h1>
+            <p class="day-message">The most romantic day of the year! 💕</p>
+
+            <p class="proposal-text">💕 Will you be my Valentine? 💕</p>
+
+            <div class="valentine-buttons">
+                <button class="btn-yes" id="yes-btn">YES! 💖</button>
+                <button class="btn-no" id="no-btn">NO 💔</button>
+            </div>
+
+            <div class="love-quiz">
+                <p style="font-weight: bold; color: white; margin-bottom: 0.5rem;">💝 Love Compatibility Quiz!</p>
+                <div class="quiz-progress" id="quizProgress"></div>
+                <p class="quiz-question" id="quizQuestion">Loading...</p>
+                <div class="quiz-options" id="quizOptions"></div>
+                <p class="compatibility" id="compatibility" style="display: none;"></p>
+            </div>
+
+            <div class="nav">
+                <a href="kiss.html" class="nav-link">← Kiss Day 💋</a>
+                <a href="index.html" class="nav-link">🏠 Home</a>
+            </div>
+        </div>
+        <nav class="week-nav" id="week-nav"></nav>
+    </div>
+
+    <div class="celebration" id="celebration">
+        <span class="celebration-emoji">💕🎉💕</span>
+        <h1 class="celebration-title">YAY!</h1>
+        <p class="celebration-msg">You just made someone the happiest person in the world! Happy Valentine's Day! 💖🥰💕
+        </p>
+        <button class="close-celebration" onclick="closeCelebration()">Continue 💕</button>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // NO button runs away
+        const noBtn = document.getElementById('no-btn');
+        const messages = ["Nice try! 😏", "Nope! 💨", "Can't catch me!", "Think again! 🤔", "Are you sure? 🥺", "Really? 😢", "Please? 🙏", "Why not? 💔"];
+        let msgIndex = 0;
+
+        function moveNoBtn(e) {
+            e.preventDefault();
+            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = Math.max(20, Math.random() * maxX) + 'px';
+            noBtn.style.top = Math.max(20, Math.random() * maxY) + 'px';
+            noBtn.style.zIndex = '100';
+            noBtn.textContent = messages[msgIndex++ % messages.length];
+        }
+
+        noBtn.addEventListener('mouseenter', moveNoBtn);
+        noBtn.addEventListener('touchstart', moveNoBtn, { passive: false });
+
+        // YES button celebration
+        document.getElementById('yes-btn').addEventListener('click', () => {
+            const celebration = document.getElementById('celebration');
+            celebration.classList.add('active');
+
+            // Add confetti
+            const colors = ['#ff6b9d', '#ffb8d0', '#ffd700', '#ff6b6b', '#fff', '#c44569'];
+            for (let i = 0; i < 80; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = (5 + Math.random() * 10) + 'px';
+                confetti.style.height = (5 + Math.random() * 10) + 'px';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                celebration.appendChild(confetti);
+            }
+        });
+
+        function closeCelebration() {
+            document.getElementById('celebration').classList.remove('active');
+            document.querySelectorAll('.confetti').forEach(c => c.remove());
+        }
+
+        // Love Quiz
+        const questions = [
+            { q: "What's your ideal date?", opts: ["🌅 Sunset beach walk", "🎬 Movie night in", "🍽️ Fancy dinner", "🏔️ Adventure trip"], scores: [3, 2, 2, 3] },
+            { q: "What matters most in love?", opts: ["💬 Communication", "🤗 Physical touch", "🎁 Thoughtful gifts", "⏰ Quality time"], scores: [3, 2, 2, 3] },
+            { q: "How do you show love?", opts: ["💬 Words of affirmation", "🤝 Acts of service", "🎁 Giving gifts", "🤗 Hugs & kisses"], scores: [2, 3, 2, 3] },
+            { q: "Perfect Valentine's gift?", opts: ["💐 Flowers", "💍 Jewelry", "📝 Love letter", "🎭 Experience together"], scores: [2, 2, 3, 3] },
+            { q: "Love at first sight?", opts: ["💕 Absolutely!", "🤔 Maybe...", "🧠 Takes time", "✨ Believe in fate"], scores: [3, 2, 2, 3] }
+        ];
+
+        let current = 0, score = 0;
+
+        function initQuiz() {
+            const progress = document.getElementById('quizProgress');
+            progress.innerHTML = questions.map((_, i) => `<div class="progress-dot ${i === 0 ? 'current' : ''}"></div>`).join('');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (current >= questions.length) return showResult();
+
+            const q = questions[current];
+            document.getElementById('quizQuestion').textContent = q.q;
+
+            const opts = document.getElementById('quizOptions');
+            opts.innerHTML = q.opts.map((opt, i) => `<div class="quiz-option" onclick="answer(${i})">${opt}</div>`).join('');
+
+            const dots = document.querySelectorAll('.progress-dot');
+            dots.forEach((d, i) => { d.className = `progress-dot ${i < current ? 'done' : i === current ? 'current' : ''}`; });
+        }
+
+        function answer(idx) {
+            const opts = document.querySelectorAll('.quiz-option');
+            opts.forEach(o => o.style.pointerEvents = 'none');
+            opts[idx].classList.add('correct');
+
+            score += questions[current].scores[idx];
+            current++;
+
+            setTimeout(showQuestion, 800);
+        }
+
+        function showResult() {
+            document.getElementById('quizQuestion').textContent = 'Quiz Complete!';
+            document.getElementById('quizOptions').innerHTML = '';
+            document.querySelectorAll('.progress-dot').forEach(d => d.classList.add('done'));
+
+            const compat = document.getElementById('compatibility');
+            const percent = Math.min(100, Math.round(score / 15 * 100));
+            compat.textContent = `💕 Love Score: ${percent}% 💕`;
+            compat.style.display = 'block';
+            compat.style.color = percent > 80 ? '#4CAF50' : percent > 50 ? '#FFD700' : '#FF6B6B';
+        }
+
+        initQuiz();
+    </script>
+</body>
+
+</html>

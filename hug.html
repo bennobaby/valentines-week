@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤗 Hug Day - Hug Reaction Game!</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #ff758c 100%);
+        }
+
+        .reaction-game {
+            margin: 1.5rem 0;
+        }
+
+        .hug-zone {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(180deg, #ffe4ec 0%, #ffb6c1 100%);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .hug-target {
+            font-size: 5rem;
+            transition: transform 0.1s;
+        }
+
+        .hug-target.squeeze {
+            transform: scale(0.8);
+        }
+
+        .hug-zone.waiting {
+            background: linear-gradient(180deg, #f0f0f0 0%, #ddd 100%);
+        }
+
+        .hug-zone.ready {
+            background: linear-gradient(180deg, #90EE90 0%, #32CD32 100%);
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(50, 205, 50, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 0 20px rgba(50, 205, 50, 0);
+            }
+        }
+
+        .hug-zone.hugged {
+            background: linear-gradient(180deg, #FFB6C1 0%, #FF69B4 100%);
+        }
+
+        .hug-zone.failed {
+            background: linear-gradient(180deg, #ffcccb 0%, #ff6b6b 100%);
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .info-box {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 0.6rem 1.2rem;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+
+        .instruction {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            min-height: 40px;
+        }
+
+        .reaction-time {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #f5576c;
+            margin: 0.5rem 0;
+        }
+
+        .leaderboard {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            border-radius: 15px;
+            margin-top: 1rem;
+        }
+
+        .leaderboard h4 {
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .times-list {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .time-badge {
+            background: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .time-badge.best {
+            background: gold;
+            font-weight: bold;
+        }
+
+        .start-btn {
+            background: white;
+            color: #f5576c;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="floating-hearts" id="floating-hearts"></div>
+    <div class="container">
+        <div class="card">
+            <span class="day-emoji">🤗</span>
+            <p class="day-date">February 12, 2026</p>
+            <h1 class="day-title">Hug Day</h1>
+            <p class="day-message">Test your hug reflexes! Click when the zone turns GREEN! 💚</p>
+
+            <div class="reaction-game">
+                <div class="game-info">
+                    <div class="info-box">Round: <span id="round">0</span>/5</div>
+                    <div class="info-box">Best: <span id="bestTime">---</span></div>
+                </div>
+
+                <div class="hug-zone" id="hugZone" onclick="handleClick()">
+                    <span class="hug-target" id="hugTarget">🤗</span>
+                </div>
+
+                <p class="instruction" id="instruction">Click START to begin!</p>
+                <p class="reaction-time" id="reactionTime"></p>
+
+                <button class="start-btn" id="startBtn" onclick="startGame()">▶️ START</button>
+
+                <div class="leaderboard">
+                    <h4>🏆 Your Reaction Times</h4>
+                    <div class="times-list" id="timesList">
+                        <span style="color: rgba(255,255,255,0.7);">Play to see times!</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav">
+                <a href="promise.html" class="nav-link">← Promise Day 🤝</a>
+                <a href="kiss.html" class="nav-link">Next: Kiss Day 💋</a>
+            </div>
+        </div>
+        <nav class="week-nav" id="week-nav"></nav>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        const zone = document.getElementById('hugZone');
+        const target = document.getElementById('hugTarget');
+        const instruction = document.getElementById('instruction');
+        const reactionEl = document.getElementById('reactionTime');
+        const startBtn = document.getElementById('startBtn');
+
+        let state = 'idle', startTime, timeout, round = 0, times = [], bestTime = Infinity;
+
+        function startGame() {
+            round = 0; times = [];
+            document.getElementById('timesList').innerHTML = '';
+            startBtn.style.display = 'none';
+            nextRound();
+        }
+
+        function nextRound() {
+            if (round >= 5) return endGame();
+            round++;
+            document.getElementById('round').textContent = round;
+
+            state = 'waiting';
+            zone.className = 'hug-zone waiting';
+            target.textContent = '⏳';
+            instruction.textContent = 'Wait for green...';
+            reactionEl.textContent = '';
+
+            const delay = 1500 + Math.random() * 3000;
+            timeout = setTimeout(() => {
+                state = 'ready';
+                zone.classList.remove('waiting');
+                zone.classList.add('ready');
+                target.textContent = '🤗';
+                instruction.textContent = 'HUG NOW! 💚';
+                startTime = performance.now();
+            }, delay);
+        }
+
+        function handleClick() {
+            if (state === 'idle') return;
+
+            if (state === 'waiting') {
+                clearTimeout(timeout);
+                state = 'idle';
+                zone.classList.remove('waiting');
+                zone.classList.add('failed');
+                target.textContent = '😅';
+                instruction.textContent = 'Too early! Wait for green!';
+                setTimeout(nextRound, 1500);
+            } else if (state === 'ready') {
+                const reaction = Math.round(performance.now() - startTime);
+                times.push(reaction);
+
+                if (reaction < bestTime) {
+                    bestTime = reaction;
+                    document.getElementById('bestTime').textContent = bestTime + 'ms';
+                }
+
+                state = 'idle';
+                zone.classList.remove('ready');
+                zone.classList.add('hugged');
+                target.classList.add('squeeze');
+                setTimeout(() => target.classList.remove('squeeze'), 200);
+                target.textContent = '🥰';
+                instruction.textContent = getReactionMessage(reaction);
+                reactionEl.textContent = reaction + ' ms';
+
+                const badge = document.createElement('span');
+                badge.className = 'time-badge' + (reaction === bestTime ? ' best' : '');
+                badge.textContent = reaction + 'ms';
+                document.getElementById('timesList').appendChild(badge);
+
+                setTimeout(nextRound, 1500);
+            }
+        }
+
+        function getReactionMessage(ms) {
+            if (ms < 200) return '⚡ SUPERHUMAN! ⚡';
+            if (ms < 300) return '🔥 AMAZING!';
+            if (ms < 400) return '💪 Great reflexes!';
+            if (ms < 500) return '👍 Nice hug!';
+            return '🤗 Got it!';
+        }
+
+        function endGame() {
+            state = 'idle';
+            zone.className = 'hug-zone';
+            target.textContent = '🏆';
+            const avg = Math.round(times.reduce((a, b) => a + b, 0) / times.length);
+            instruction.textContent = `Average: ${avg}ms`;
+            reactionEl.textContent = times.length > 0 ? `Best: ${Math.min(...times)}ms` : '';
+            startBtn.style.display = 'inline-block';
+            startBtn.textContent = '🔄 Play Again';
+        }
+    </script>
+</body>
+
+</html>

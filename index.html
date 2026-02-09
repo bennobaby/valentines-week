@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Valentine Week 2026 - Celebrate love every day from Rose Day to Valentine's Day">
+    <title>Valentine Week 2026 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 50%, #ff6b6b 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+        
+        .loader {
+            text-align: center;
+            color: white;
+        }
+        
+        .heart {
+            font-size: 4rem;
+            animation: pulse 1s ease-in-out infinite;
+        }
+        
+        .loader p {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        /* Floating hearts background */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="hearts"></div>
+    
+    <div class="loader">
+        <div class="heart">💕</div>
+        <p>Finding today's love message...</p>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createFloatingHearts() {
+            const container = document.getElementById('hearts');
+            const hearts = ['💕', '💖', '💗', '💓', '💘', '❤️', '🩷', '🤍'];
+            
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'floating-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (10 + Math.random() * 10) + 's';
+                heart.style.animationDelay = Math.random() * 10 + 's';
+                container.appendChild(heart);
+            }
+        }
+        
+        createFloatingHearts();
+
+        // Valentine Week dates and pages
+        const valentineWeek = {
+            7: { page: 'rose.html', name: 'Rose Day' },
+            8: { page: 'propose.html', name: 'Propose Day' },
+            9: { page: 'chocolate.html', name: 'Chocolate Day' },
+            10: { page: 'teddy.html', name: 'Teddy Day' },
+            11: { page: 'promise.html', name: 'Promise Day' },
+            12: { page: 'hug.html', name: 'Hug Day' },
+            13: { page: 'kiss.html', name: 'Kiss Day' },
+            14: { page: 'valentine.html', name: "Valentine's Day" }
+        };
+
+        // Get current date
+        const today = new Date();
+        const currentMonth = today.getMonth() + 1; // JavaScript months are 0-indexed
+        const currentDay = today.getDate();
+
+        // Redirect logic
+        setTimeout(() => {
+            if (currentMonth === 2 && valentineWeek[currentDay]) {
+                // It's Valentine Week! Redirect to today's page
+                window.location.href = valentineWeek[currentDay].page;
+            } else if (currentMonth === 2 && currentDay < 7) {
+                // February but before Valentine Week - show Rose Day as preview
+                window.location.href = 'rose.html';
+            } else if (currentMonth === 2 && currentDay > 14) {
+                // After Valentine's Day
+                window.location.href = 'valentine.html';
+            } else {
+                // Not February - default to Valentine's Day page
+                window.location.href = 'valentine.html';
+            }
+        }, 1500);
+    </script>
+</body>
+</html>

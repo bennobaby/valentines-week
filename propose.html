@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💍 Propose Day - Love Letter Builder</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+
+        .game-container {
+            margin: 1.5rem 0;
+        }
+
+        .letter-box {
+            background: #fffaf0;
+            border-radius: 15px;
+            padding: 1.5rem;
+            min-height: 120px;
+            margin: 1rem 0;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
+            font-family: 'Georgia', serif;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #4a2c4a;
+            text-align: left;
+            position: relative;
+        }
+
+        .letter-box::before {
+            content: '💌';
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            font-size: 2rem;
+        }
+
+        .word-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .word-btn {
+            background: linear-gradient(145deg, #764ba2, #667eea);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .word-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
+        }
+
+        .word-btn.used {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .template {
+            color: #764ba2;
+            font-style: italic;
+        }
+
+        .blank {
+            background: rgba(118, 75, 162, 0.2);
+            padding: 2px 15px;
+            border-radius: 5px;
+            border-bottom: 2px dashed #764ba2;
+        }
+
+        .filled {
+            background: rgba(118, 75, 162, 0.3);
+            color: #4a2c4a;
+            font-weight: bold;
+            border-bottom: none;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            background: white;
+            color: #764ba2;
+            border: 2px solid #764ba2;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #764ba2;
+            color: white;
+        }
+
+        .share-area {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+        }
+
+        .share-area.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .love-meter {
+            height: 15px;
+            background: #ddd;
+            border-radius: 10px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .love-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b9d, #764ba2, #667eea);
+            width: 0%;
+            transition: width 0.5s;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="floating-hearts" id="floating-hearts"></div>
+    <div class="container">
+        <div class="card">
+            <span class="day-emoji">💍</span>
+            <p class="day-date">February 8, 2026</p>
+            <h1 class="day-title">Propose Day</h1>
+            <p class="day-message">Build your perfect love letter by choosing the right words! 💕</p>
+
+            <div class="game-container">
+                <p style="font-weight: bold; color: #764ba2;">📝 Love Letter Builder</p>
+                <div class="love-meter">
+                    <div class="love-fill" id="loveFill"></div>
+                </div>
+                <p style="font-size: 0.9rem; margin-bottom: 1rem;">Choose words to complete your letter:</p>
+
+                <div class="letter-box" id="letterBox">
+                    My <span class="blank" data-slot="0">_____</span> love,<br><br>
+                    Every moment with you is <span class="blank" data-slot="1">_____</span>.<br>
+                    Your smile makes my heart feel <span class="blank" data-slot="2">_____</span>.<br>
+                    I promise to always be <span class="blank" data-slot="3">_____</span>.<br><br>
+                    Will you be mine <span class="blank" data-slot="4">_____</span>?<br><br>
+                    Forever yours 💕
+                </div>
+
+                <div class="word-options" id="wordOptions"></div>
+
+                <div class="action-btns">
+                    <button class="action-btn" onclick="resetLetter()">🔄 Start Over</button>
+                    <button class="action-btn" onclick="shareLetter()" id="shareBtn" disabled>📤 Complete
+                        Letter</button>
+                </div>
+
+                <div class="share-area" id="shareArea">
+                    <p style="font-size: 1.2rem; color: white;">💖 Your love letter is complete! 💖</p>
+                    <p style="color: rgba(255,255,255,0.8);">Screenshot and share with your special someone!</p>
+                </div>
+            </div>
+
+            <div class="nav">
+                <a href="rose.html" class="nav-link">← Rose Day 🌹</a>
+                <a href="chocolate.html" class="nav-link">Next: Chocolate Day 🍫</a>
+            </div>
+        </div>
+        <nav class="week-nav" id="week-nav"></nav>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        const wordSets = [
+            ['dearest', 'sweetest', 'precious', 'beloved'],
+            ['magical', 'wonderful', 'incredible', 'beautiful'],
+            ['complete', 'alive', 'joyful', 'blessed'],
+            ['loving', 'caring', 'faithful', 'devoted'],
+            ['forever', 'always', 'eternally', 'endlessly']
+        ];
+
+        let currentSlot = 0, filled = 0;
+
+        function showWords(slot) {
+            const container = document.getElementById('wordOptions');
+            container.innerHTML = '';
+            if (slot >= wordSets.length) return;
+
+            wordSets[slot].forEach(word => {
+                const btn = document.createElement('button');
+                btn.className = 'word-btn';
+                btn.textContent = word;
+                btn.onclick = () => selectWord(word, slot);
+                container.appendChild(btn);
+            });
+        }
+
+        function selectWord(word, slot) {
+            const blank = document.querySelector(`[data-slot="${slot}"]`);
+            blank.textContent = word;
+            blank.classList.remove('blank');
+            blank.classList.add('filled');
+            filled++;
+
+            document.getElementById('loveFill').style.width = (filled * 20) + '%';
+
+            if (filled < 5) {
+                currentSlot++;
+                showWords(currentSlot);
+            } else {
+                document.getElementById('wordOptions').innerHTML = '<p style="color: #764ba2; font-weight: bold;">🎉 Letter Complete!</p>';
+                document.getElementById('shareBtn').disabled = false;
+            }
+        }
+
+        function resetLetter() {
+            currentSlot = 0; filled = 0;
+            document.querySelectorAll('.filled').forEach(el => {
+                el.textContent = '_____';
+                el.classList.remove('filled');
+                el.classList.add('blank');
+            });
+            document.getElementById('loveFill').style.width = '0%';
+            document.getElementById('shareBtn').disabled = true;
+            document.getElementById('shareArea').classList.remove('active');
+            showWords(0);
+        }
+
+        function shareLetter() {
+            document.getElementById('shareArea').classList.add('active');
+        }
+
+        showWords(0);
+    </script>
+</body>
+
+</html>

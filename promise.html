@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤝 Promise Day - Spin the Promise Wheel!</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 50%, #a8edea 100%);
+        }
+
+        .wheel-container {
+            position: relative;
+            margin: 1.5rem auto;
+            width: 280px;
+            height: 280px;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            border: 8px solid #2193b0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .wheel-segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            top: 0;
+            left: 50%;
+            transform-origin: 0% 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+        }
+
+        .pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.5rem;
+            z-index: 10;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+        }
+
+        .spin-btn {
+            background: linear-gradient(135deg, #2193b0, #6dd5ed);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin: 1rem 0;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .spin-btn:hover:not(:disabled) {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(33, 147, 176, 0.4);
+        }
+
+        .spin-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .result-box {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 1.5rem;
+            border-radius: 20px;
+            margin: 1rem 0;
+            min-height: 100px;
+        }
+
+        .result-promise {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2193b0;
+        }
+
+        .promise-collection {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .collected-promise {
+            background: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            animation: popIn 0.3s;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .progress-text {
+            color: #2193b0;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="floating-hearts" id="floating-hearts"></div>
+    <div class="container">
+        <div class="card">
+            <span class="day-emoji">🤝</span>
+            <p class="day-date">February 11, 2026</p>
+            <h1 class="day-title">Promise Day</h1>
+            <p class="day-message">Spin the wheel to discover promises to make! Collect all 8! 🎯</p>
+
+            <div class="wheel-container">
+                <div class="pointer">📍</div>
+                <div class="wheel" id="wheel">
+                    <div class="wheel-segment" style="background: #FF6B6B; transform: rotate(0deg);">💕</div>
+                    <div class="wheel-segment" style="background: #4ECDC4; transform: rotate(45deg);">🌟</div>
+                    <div class="wheel-segment" style="background: #45B7D1; transform: rotate(90deg);">🤗</div>
+                    <div class="wheel-segment" style="background: #96CEB4; transform: rotate(135deg);">💪</div>
+                    <div class="wheel-segment" style="background: #FFEAA7; transform: rotate(180deg);">🔐</div>
+                    <div class="wheel-segment" style="background: #DDA0DD; transform: rotate(225deg);">😊</div>
+                    <div class="wheel-segment" style="background: #98D8C8; transform: rotate(270deg);">🌈</div>
+                    <div class="wheel-segment" style="background: #F7DC6F; transform: rotate(315deg);">💎</div>
+                </div>
+            </div>
+
+            <button class="spin-btn" id="spinBtn" onclick="spinWheel()">🎰 SPIN!</button>
+
+            <div class="result-box">
+                <p id="resultText" style="color: #666;">Spin the wheel to get a promise!</p>
+                <p class="result-promise" id="resultPromise"></p>
+            </div>
+
+            <div class="progress-text">Collected: <span id="collected">0</span>/8</div>
+            <div class="promise-collection" id="collection"></div>
+
+            <div class="nav">
+                <a href="teddy.html" class="nav-link">← Teddy Day 🧸</a>
+                <a href="hug.html" class="nav-link">Next: Hug Day 🤗</a>
+            </div>
+        </div>
+        <nav class="week-nav" id="week-nav"></nav>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        const promises = [
+            { emoji: '💕', text: 'I promise to love you unconditionally' },
+            { emoji: '🌟', text: 'I promise to be your biggest cheerleader' },
+            { emoji: '🤗', text: 'I promise to always comfort you' },
+            { emoji: '💪', text: 'I promise to support your dreams' },
+            { emoji: '🔐', text: 'I promise to keep your secrets safe' },
+            { emoji: '😊', text: 'I promise to make you smile daily' },
+            { emoji: '🌈', text: 'I promise to stay through hard times' },
+            { emoji: '💎', text: 'I promise to treasure every moment' }
+        ];
+
+        let collected = new Set(), spinning = false, rotation = 0;
+
+        function spinWheel() {
+            if (spinning || collected.size >= 8) return;
+            spinning = true;
+            document.getElementById('spinBtn').disabled = true;
+
+            const spins = 5 + Math.random() * 5;
+            const segment = Math.floor(Math.random() * 8);
+            rotation += spins * 360 + segment * 45 + 22.5;
+
+            document.getElementById('wheel').style.transform = `rotate(${rotation}deg)`;
+            document.getElementById('resultText').textContent = 'Spinning...';
+            document.getElementById('resultPromise').textContent = '';
+
+            setTimeout(() => {
+                const landed = (8 - Math.floor((rotation % 360) / 45)) % 8;
+                const promise = promises[landed];
+
+                document.getElementById('resultText').textContent = 'Your promise:';
+                document.getElementById('resultPromise').textContent = promise.emoji + ' ' + promise.text;
+
+                if (!collected.has(landed)) {
+                    collected.add(landed);
+                    document.getElementById('collected').textContent = collected.size;
+
+                    const tag = document.createElement('span');
+                    tag.className = 'collected-promise';
+                    tag.textContent = promise.emoji + ' ' + promise.text.split(' ').slice(2, 5).join(' ') + '...';
+                    document.getElementById('collection').appendChild(tag);
+
+                    if (collected.size >= 8) {
+                        document.getElementById('resultText').textContent = '🎉 You collected ALL promises!';
+                        document.getElementById('spinBtn').textContent = '✅ Complete!';
+                    }
+                } else {
+                    document.getElementById('resultText').textContent = 'Already have this one! Spin again!';
+                }
+
+                spinning = false;
+                document.getElementById('spinBtn').disabled = collected.size >= 8;
+            }, 4000);
+        }
+    </script>
+</body>
+
+</html>
