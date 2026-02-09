@@ -172,99 +172,78 @@
             color: #8B4513;
         }
 
-        /* Mobile responsive styles */
+        /* Mobile responsive - Dynamic for ALL iPhones */
         @media (max-width: 600px) {
             .teddy-builder {
-                gap: 0.75rem;
+                gap: clamp(0.5rem, 2vw, 1rem);
             }
 
             .teddy-display {
-                width: 160px;
-                height: 200px;
-                border-radius: 20px;
+                width: clamp(130px, 40vw, 200px);
+                height: clamp(160px, 30vh, 250px);
+                border-radius: clamp(15px, 5vw, 30px);
             }
 
             .teddy-body {
-                font-size: 4.5rem;
+                font-size: clamp(3.5rem, 15vw, 6rem);
             }
 
             .teddy-accessory {
-                font-size: 2rem;
+                font-size: clamp(1.5rem, 6vw, 2.5rem);
             }
 
             .hat {
-                top: -35px;
+                top: clamp(-40px, -10vw, -25px);
             }
 
             .glasses {
-                font-size: 1.5rem;
-                top: 10px;
+                font-size: clamp(1.25rem, 5vw, 2rem);
+                top: clamp(8px, 2vw, 15px);
             }
 
             .bow {
-                top: 45px;
+                top: clamp(35px, 12vw, 60px);
             }
 
             .item-btn {
-                padding: 0.6rem;
-                font-size: 1.5rem;
-                min-width: 50px;
-                min-height: 48px;
+                padding: clamp(0.4rem, 1.5vw, 0.8rem);
+                font-size: clamp(1.2rem, 5vw, 1.8rem);
+                min-width: clamp(40px, 12vw, 60px);
+                min-height: 44px;
             }
 
             .options-panel {
-                padding: 0.75rem;
-            }
-
-            .category-label {
-                font-size: 0.8rem;
-            }
-
-            .teddy-name {
-                width: 130px;
-                font-size: 0.9rem;
-            }
-
-            .hug-game {
-                margin-top: 1rem;
-                padding: 0.75rem;
-            }
-
-            .hug-target {
-                font-size: 3rem;
-            }
-
-            .hug-bar {
-                height: 15px;
-            }
-
-            .hug-message {
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .teddy-display {
-                width: 140px;
-                height: 180px;
-            }
-
-            .teddy-body {
-                font-size: 4rem;
-            }
-
-            .item-btn {
-                padding: 0.5rem;
-                font-size: 1.3rem;
-                min-width: 44px;
+                padding: clamp(0.5rem, 2vw, 1rem);
             }
 
             .options-row {
-                gap: 0.3rem;
+                gap: clamp(0.25rem, 1vw, 0.5rem);
+            }
+
+            .category-label {
+                font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+            }
+
+            .teddy-name {
+                width: clamp(110px, 35vw, 150px);
+                font-size: clamp(0.8rem, 3vw, 1rem);
+            }
+
+            .hug-game {
+                margin-top: clamp(0.75rem, 3vw, 1.5rem);
+                padding: clamp(0.5rem, 2vw, 1rem);
             }
 
             .hug-target {
-                font-size: 2.5rem;
+                font-size: clamp(2.5rem, 10vw, 4rem);
+            }
+
+            .hug-bar {
+                height: clamp(12px, 4vw, 20px);
+            }
+
+            .hug-message {
+                font-size: clamp(0.8rem, 3vw, 1rem);
             }
         }
     </style>

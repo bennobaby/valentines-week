@@ -123,72 +123,49 @@
             margin-top: 0.5rem;
         }
 
-        /* Mobile responsive styles */
+        /* Mobile responsive - Dynamic for ALL iPhones */
         @media (max-width: 600px) {
             .wheel-container {
-                width: 220px;
-                height: 220px;
-                margin: 1rem auto;
+                width: clamp(160px, 50vw, 280px);
+                height: clamp(160px, 50vw, 280px);
+                margin: clamp(0.75rem, 3vw, 1.5rem) auto;
             }
 
             .wheel {
-                border-width: 6px;
+                border-width: clamp(4px, 1.5vw, 8px);
             }
 
             .wheel-segment {
-                font-size: 1.5rem;
+                font-size: clamp(1.1rem, 5vw, 2rem);
             }
 
             .pointer {
-                font-size: 2rem;
-                top: -12px;
+                font-size: clamp(1.5rem, 6vw, 2.5rem);
+                top: clamp(-15px, -4vw, -10px);
             }
 
             .spin-btn {
-                padding: 0.8rem 2rem;
-                font-size: 1.1rem;
+                padding: clamp(0.6rem, 2.5vw, 1rem) clamp(1.5rem, 6vw, 3rem);
+                font-size: clamp(0.95rem, 4vw, 1.2rem);
             }
 
             .result-box {
-                padding: 1rem;
-                min-height: 80px;
+                padding: clamp(0.75rem, 3vw, 1.5rem);
+                min-height: clamp(60px, 15vh, 100px);
+                border-radius: clamp(12px, 4vw, 20px);
             }
 
             .result-promise {
-                font-size: 1.1rem;
+                font-size: clamp(0.9rem, 4vw, 1.3rem);
             }
 
             .collected-promise {
-                font-size: 0.7rem;
-                padding: 0.25rem 0.6rem;
+                font-size: clamp(0.6rem, 2vw, 0.8rem);
+                padding: clamp(0.2rem, 0.75vw, 0.35rem) clamp(0.4rem, 1.5vw, 0.8rem);
             }
 
             .progress-text {
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .wheel-container {
-                width: 180px;
-                height: 180px;
-            }
-
-            .wheel-segment {
-                font-size: 1.25rem;
-            }
-
-            .pointer {
-                font-size: 1.75rem;
-                top: -10px;
-            }
-
-            .result-promise {
-                font-size: 1rem;
-            }
-
-            .result-box {
-                padding: 0.75rem;
+                font-size: clamp(0.8rem, 3vw, 1rem);
             }
         }
     </style>

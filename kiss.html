@@ -168,82 +168,61 @@
             }
         }
 
-        /* Mobile responsive styles */
+        /* Mobile responsive - Dynamic for ALL iPhones */
         @media (max-width: 600px) {
             .catch-game {
-                margin: 1rem 0;
+                margin: clamp(0.5rem, 2vw, 1rem) 0;
             }
 
             .stat {
-                padding: 0.4rem 1rem;
-                font-size: 0.8rem;
+                padding: clamp(0.3rem, 1vw, 0.5rem) clamp(0.6rem, 3vw, 1.25rem);
+                font-size: clamp(0.7rem, 2.5vw, 0.9rem);
             }
 
             .game-area {
-                height: 280px;
-                border-radius: 20px;
+                height: clamp(220px, 35vh, 320px);
+                border-radius: clamp(15px, 4vw, 25px);
             }
 
             .flying-kiss {
-                font-size: 2rem;
+                font-size: clamp(1.5rem, 6vw, 2.5rem);
             }
 
             .caught-effect {
-                font-size: 1.2rem;
+                font-size: clamp(1rem, 4vw, 1.5rem);
+            }
+
+            .start-overlay {
+                padding: clamp(0.5rem, 2vw, 1rem);
             }
 
             .start-overlay p {
-                font-size: 0.9rem;
+                font-size: clamp(0.75rem, 2.5vw, 1rem);
             }
 
             .start-overlay h3 {
-                font-size: 1.2rem;
+                font-size: clamp(0.9rem, 4vw, 1.3rem);
             }
 
             .play-btn {
-                padding: 0.8rem 2rem;
-                font-size: 1.1rem;
+                padding: clamp(0.6rem, 2vw, 1rem) clamp(1.5rem, 6vw, 3rem);
+                font-size: clamp(1rem, 4vw, 1.3rem);
             }
 
             .combo-display {
-                font-size: 0.75rem;
-                padding: 0.2rem 0.6rem;
+                font-size: clamp(0.65rem, 2.5vw, 0.9rem);
+                padding: clamp(0.15rem, 0.5vw, 0.3rem) clamp(0.4rem, 2vw, 0.8rem);
             }
 
             .timer-bar {
-                height: 8px;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .game-area {
-                height: 240px;
-                border-radius: 15px;
-            }
-
-            .flying-kiss {
-                font-size: 1.75rem;
-            }
-
-            .stat {
-                padding: 0.3rem 0.75rem;
-                font-size: 0.75rem;
-            }
-
-            .start-overlay p {
-                font-size: 0.8rem;
-            }
-
-            .play-btn {
-                padding: 0.7rem 1.5rem;
-                font-size: 1rem;
+                height: clamp(6px, 1.5vw, 10px);
             }
         }
 
         /* Landscape mode */
         @media (max-height: 500px) and (orientation: landscape) {
             .game-area {
-                height: 200px;
+                height: clamp(150px, 45vh, 200px);
             }
         }
     </style>
