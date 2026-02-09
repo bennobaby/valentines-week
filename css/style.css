@@ -19,23 +19,23 @@
     --white: #ffffff;
     --text-dark: #4a2c4a;
     --text-light: #ffffff;
-    
+
     /* Gradients */
     --gradient-romantic: linear-gradient(135deg, #ff6b9d 0%, #c44569 50%, #ff6b6b 100%);
     --gradient-soft: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-    --gradient-card: linear-gradient(145deg, rgba(255,255,255,0.9) 0%, rgba(255,245,247,0.95) 100%);
-    
+    --gradient-card: linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 245, 247, 0.95) 100%);
+
     /* Shadows */
     --shadow-soft: 0 10px 40px rgba(196, 69, 105, 0.3);
     --shadow-card: 0 20px 60px rgba(196, 69, 105, 0.2);
     --shadow-button: 0 8px 25px rgba(196, 69, 105, 0.4);
-    
+
     /* Border Radius */
     --radius-small: 12px;
     --radius-medium: 20px;
     --radius-large: 30px;
     --radius-round: 50px;
-    
+
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -80,12 +80,15 @@ body {
         transform: translateY(100vh) rotate(0deg) scale(0.5);
         opacity: 0;
     }
+
     10% {
         opacity: 0.2;
     }
+
     90% {
         opacity: 0.2;
     }
+
     100% {
         transform: translateY(-100vh) rotate(720deg) scale(1);
         opacity: 0;
@@ -140,6 +143,7 @@ body {
         opacity: 0;
         transform: translateY(30px) scale(0.95);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -157,8 +161,15 @@ body {
 }
 
 @keyframes emojiPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
 }
 
 .day-date {
@@ -262,7 +273,8 @@ body {
     font-weight: 500;
 }
 
-.nav-link:hover, .nav-link.active {
+.nav-link:hover,
+.nav-link.active {
     background: var(--deep-rose);
     color: var(--white);
     transform: translateY(-2px);
@@ -334,73 +346,251 @@ body {
 }
 
 @keyframes sparkle {
-    0%, 100% { opacity: 0; transform: scale(0); }
-    50% { opacity: 1; transform: scale(1); }
+
+    0%,
+    100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 /* ====================================
-   Responsive Design
+   Responsive Design - Mobile First
    ==================================== */
-@media (max-width: 600px) {
+
+/* Prevent horizontal scrolling */
+html,
+body {
+    overflow-x: hidden;
+    max-width: 100vw;
+}
+
+/* Safe area insets for notched phones */
+@supports (padding: max(0px)) {
     .container {
-        padding: 1.5rem 1rem;
-    }
-    
-    .card {
-        padding: 2rem 1.5rem;
-        border-radius: var(--radius-medium);
-    }
-    
-    .day-emoji {
-        font-size: 4rem;
-    }
-    
-    .day-title {
-        font-size: 1.8rem;
-    }
-    
-    .day-message {
-        font-size: 1rem;
-    }
-    
-    .btn {
-        padding: 0.8rem 2rem;
-        font-size: 0.9rem;
-    }
-    
-    .week-nav {
-        gap: 0.3rem;
-        padding: 0.8rem;
-    }
-    
-    .week-day {
-        padding: 0.5rem;
-        min-width: 40px;
-    }
-    
-    .week-day-emoji {
-        font-size: 1.2rem;
-    }
-    
-    .week-day-date {
-        font-size: 0.6rem;
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+        padding-bottom: max(1rem, env(safe-area-inset-bottom));
     }
 }
 
-@media (max-width: 400px) {
-    .day-title {
-        font-size: 1.5rem;
+/* Touch-friendly tap targets */
+.btn,
+.nav-link,
+.quiz-option,
+.memory-card,
+.start-btn,
+.restart-btn {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* Tablet and smaller screens */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem 0.5rem;
+        min-height: 100vh;
+        min-height: 100dvh;
+        /* Dynamic viewport height for mobile browsers */
     }
-    
+
+    .card {
+        padding: 1.75rem 1.25rem;
+        border-radius: var(--radius-medium);
+        max-width: 100%;
+        margin: 0 0.25rem;
+        width: calc(100% - 0.5rem);
+    }
+
+    .day-emoji {
+        font-size: 3.5rem;
+    }
+
+    .day-title {
+        font-size: 1.75rem;
+    }
+
+    .day-message {
+        font-size: 0.95rem;
+        padding: 0 0.25rem;
+    }
+
+    .quote {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile phones - iPhone 13 Pro is 390pt wide */
+@media (max-width: 600px) {
+    .container {
+        padding: 0.5rem;
+        justify-content: flex-start;
+        padding-top: 0.75rem;
+    }
+
+    .card {
+        padding: 1.25rem 1rem;
+        border-radius: 20px;
+        margin: 0;
+        width: 100%;
+        max-width: none;
+    }
+
+    .day-emoji {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .day-title {
+        font-size: 1.6rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .day-message {
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+    }
+
+    .day-date {
+        font-size: 0.75rem;
+        letter-spacing: 2px;
+    }
+
+    .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.85rem;
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .nav {
+        margin-top: 1.25rem;
+        gap: 0.75rem;
+        width: 100%;
+    }
+
+    .nav-link {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+        text-align: center;
+        flex: 1;
+        min-width: 120px;
+    }
+
+    .week-nav {
+        gap: 0.25rem;
+        padding: 0.6rem;
+    }
+
+    .week-day {
+        padding: 0.4rem;
+        min-width: 38px;
+    }
+
+    .week-day-emoji {
+        font-size: 1.1rem;
+    }
+
+    .week-day-date {
+        font-size: 0.55rem;
+    }
+
+    .quote {
+        padding: 0.75rem;
+        font-size: 0.85rem;
+        margin: 1rem 0;
+    }
+}
+
+/* Small mobile phones */
+@media (max-width: 400px) {
+    .container {
+        padding: 0.5rem;
+    }
+
+    .card {
+        padding: 1.25rem 0.75rem;
+        border-radius: 12px;
+    }
+
+    .day-emoji {
+        font-size: 2.5rem;
+    }
+
+    .day-title {
+        font-size: 1.35rem;
+    }
+
+    .day-message {
+        font-size: 0.85rem;
+    }
+
     .nav {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .nav-link {
         width: 100%;
         max-width: 200px;
         text-align: center;
+    }
+
+    .btn {
+        padding: 0.7rem 1.25rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Extra small phones (iPhone SE, etc.) */
+@media (max-width: 360px) {
+    .day-title {
+        font-size: 1.2rem;
+    }
+
+    .day-emoji {
+        font-size: 2.25rem;
+    }
+
+    .day-message {
+        font-size: 0.8rem;
+    }
+
+    .card {
+        padding: 1rem 0.6rem;
+    }
+}
+
+/* Landscape mode on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .container {
+        padding: 0.5rem;
+        min-height: auto;
+    }
+
+    .card {
+        padding: 1rem;
+    }
+
+    .day-emoji {
+        font-size: 2rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .day-title {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .day-message {
+        margin-bottom: 0.75rem;
     }
 }
 
@@ -455,8 +645,13 @@ body {
 }
 
 @keyframes celebrationAppear {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 .celebration-content {
@@ -466,9 +661,17 @@ body {
 }
 
 @keyframes bounceIn {
-    0% { transform: scale(0); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .celebration-emoji {
@@ -478,15 +681,20 @@ body {
 }
 
 @keyframes celebrationPulse {
-    0% { transform: scale(1) rotate(-5deg); }
-    100% { transform: scale(1.1) rotate(5deg); }
+    0% {
+        transform: scale(1) rotate(-5deg);
+    }
+
+    100% {
+        transform: scale(1.1) rotate(5deg);
+    }
 }
 
 .celebration-title {
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .celebration-message {
@@ -509,6 +717,7 @@ body {
         transform: translateY(-100vh) rotate(0deg);
         opacity: 1;
     }
+
     100% {
         transform: translateY(100vh) rotate(720deg);
         opacity: 0;

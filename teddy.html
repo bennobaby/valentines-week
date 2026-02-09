@@ -72,6 +72,7 @@
             font-size: 1.8rem;
             transition: all 0.3s;
             min-width: 60px;
+            min-height: 54px;
         }
 
         .item-btn:hover {
@@ -125,6 +126,7 @@
             font-size: 1rem;
             margin-top: 1rem;
             transition: all 0.3s;
+            min-height: 48px;
         }
 
         .save-btn:hover {
@@ -168,6 +170,102 @@
             min-height: 30px;
             font-weight: bold;
             color: #8B4513;
+        }
+
+        /* Mobile responsive styles */
+        @media (max-width: 600px) {
+            .teddy-builder {
+                gap: 0.75rem;
+            }
+
+            .teddy-display {
+                width: 160px;
+                height: 200px;
+                border-radius: 20px;
+            }
+
+            .teddy-body {
+                font-size: 4.5rem;
+            }
+
+            .teddy-accessory {
+                font-size: 2rem;
+            }
+
+            .hat {
+                top: -35px;
+            }
+
+            .glasses {
+                font-size: 1.5rem;
+                top: 10px;
+            }
+
+            .bow {
+                top: 45px;
+            }
+
+            .item-btn {
+                padding: 0.6rem;
+                font-size: 1.5rem;
+                min-width: 50px;
+                min-height: 48px;
+            }
+
+            .options-panel {
+                padding: 0.75rem;
+            }
+
+            .category-label {
+                font-size: 0.8rem;
+            }
+
+            .teddy-name {
+                width: 130px;
+                font-size: 0.9rem;
+            }
+
+            .hug-game {
+                margin-top: 1rem;
+                padding: 0.75rem;
+            }
+
+            .hug-target {
+                font-size: 3rem;
+            }
+
+            .hug-bar {
+                height: 15px;
+            }
+
+            .hug-message {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .teddy-display {
+                width: 140px;
+                height: 180px;
+            }
+
+            .teddy-body {
+                font-size: 4rem;
+            }
+
+            .item-btn {
+                padding: 0.5rem;
+                font-size: 1.3rem;
+                min-width: 44px;
+            }
+
+            .options-row {
+                gap: 0.3rem;
+            }
+
+            .hug-target {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>

@@ -27,6 +27,7 @@
             justify-content: center;
             gap: 2rem;
             margin-bottom: 1rem;
+            flex-wrap: wrap;
         }
 
         .stat {
@@ -34,6 +35,7 @@
             padding: 0.5rem 1.5rem;
             border-radius: 20px;
             font-weight: bold;
+            font-size: 0.9rem;
         }
 
         .memory-grid {
@@ -56,6 +58,7 @@
             transition: all 0.3s;
             transform-style: preserve-3d;
             position: relative;
+            min-height: 60px;
         }
 
         .memory-card:hover {
@@ -105,6 +108,7 @@
             font-size: 1rem;
             margin-top: 1rem;
             transition: all 0.3s;
+            min-height: 48px;
         }
 
         .restart-btn:hover {
@@ -124,6 +128,7 @@
             flex-direction: column;
             z-index: 100;
             color: white;
+            padding: 1rem;
         }
 
         .win-overlay.active {
@@ -160,6 +165,104 @@
         .win-score {
             font-size: 1.3rem;
             opacity: 0.9;
+        }
+
+        /* Mobile responsive styles for memory game */
+        @media (max-width: 600px) {
+            .game-container {
+                margin: 1rem 0;
+            }
+
+            .game-title {
+                font-size: 1rem;
+            }
+
+            .game-stats {
+                gap: 1rem;
+            }
+
+            .stat {
+                padding: 0.4rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .memory-grid {
+                gap: 8px;
+                max-width: 280px;
+            }
+
+            .memory-card {
+                font-size: 1.5rem;
+                border-radius: 10px;
+                min-height: 55px;
+            }
+
+            .game-message {
+                font-size: 0.95rem;
+            }
+
+            .restart-btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .win-emoji {
+                font-size: 3.5rem;
+            }
+
+            .win-title {
+                font-size: 2rem;
+            }
+
+            .win-score {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .memory-grid {
+                gap: 6px;
+                max-width: 240px;
+            }
+
+            .memory-card {
+                font-size: 1.25rem;
+                border-radius: 8px;
+                min-height: 48px;
+            }
+
+            .stat {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.75rem;
+            }
+
+            .game-title {
+                font-size: 0.9rem;
+            }
+
+            .game-message {
+                font-size: 0.85rem;
+            }
+
+            .win-emoji {
+                font-size: 3rem;
+            }
+
+            .win-title {
+                font-size: 1.75rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .memory-grid {
+                gap: 5px;
+                max-width: 220px;
+            }
+
+            .memory-card {
+                font-size: 1.1rem;
+                min-height: 44px;
+            }
         }
     </style>
 </head>

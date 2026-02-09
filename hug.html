@@ -80,6 +80,7 @@
             padding: 0.6rem 1.2rem;
             border-radius: 15px;
             font-weight: bold;
+            font-size: 0.9rem;
         }
 
         .instruction {
@@ -138,10 +139,83 @@
             font-weight: bold;
             margin-top: 1rem;
             transition: all 0.3s;
+            min-height: 48px;
         }
 
         .start-btn:hover {
             transform: scale(1.1);
+        }
+
+        /* Mobile responsive styles */
+        @media (max-width: 600px) {
+            .reaction-game {
+                margin: 1rem 0;
+            }
+
+            .hug-zone {
+                height: 240px;
+                border-radius: 20px;
+            }
+
+            .hug-target {
+                font-size: 4rem;
+            }
+
+            .info-box {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .instruction {
+                font-size: 1rem;
+                min-height: 35px;
+            }
+
+            .reaction-time {
+                font-size: 1.5rem;
+            }
+
+            .leaderboard {
+                padding: 0.75rem;
+            }
+
+            .leaderboard h4 {
+                font-size: 0.9rem;
+            }
+
+            .time-badge {
+                font-size: 0.75rem;
+                padding: 0.25rem 0.6rem;
+            }
+
+            .start-btn {
+                padding: 0.8rem 2rem;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .hug-zone {
+                height: 200px;
+                border-radius: 15px;
+            }
+
+            .hug-target {
+                font-size: 3.5rem;
+            }
+
+            .info-box {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.75rem;
+            }
+
+            .instruction {
+                font-size: 0.9rem;
+            }
+
+            .reaction-time {
+                font-size: 1.25rem;
+            }
         }
     </style>
 </head>

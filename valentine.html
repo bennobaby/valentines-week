@@ -65,6 +65,7 @@
             transition: all 0.3s;
             font-weight: bold;
             box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+            min-height: 48px;
         }
 
         .btn-yes:hover {
@@ -83,6 +84,7 @@
             font-weight: bold;
             position: relative;
             transition: none;
+            min-height: 48px;
         }
 
         .love-quiz {
@@ -112,6 +114,9 @@
             transition: all 0.3s;
             text-align: left;
             color: white;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
         }
 
         .quiz-option:hover {
@@ -170,6 +175,7 @@
             align-items: center;
             background: linear-gradient(135deg, #ff6b9d, #ff9a9e);
             z-index: 1000;
+            padding: 1rem;
         }
 
         .celebration.active {
@@ -235,6 +241,116 @@
             cursor: pointer;
             margin-top: 2rem;
             font-weight: bold;
+            min-height: 48px;
+        }
+
+        /* Mobile responsive styles */
+        @media (max-width: 600px) {
+            .valentine-heart {
+                font-size: 3.5rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .proposal-text {
+                font-size: 1.4rem;
+                margin: 0.75rem 0;
+            }
+
+            .valentine-buttons {
+                gap: 1rem;
+                margin: 1.5rem 0;
+            }
+
+            .btn-yes,
+            .btn-no {
+                font-size: 1.1rem;
+                padding: 1rem 2.5rem;
+            }
+
+            .love-quiz {
+                padding: 1rem;
+                margin: 1rem 0;
+                border-radius: 15px;
+            }
+
+            .quiz-question {
+                font-size: 1rem;
+            }
+
+            .quiz-option {
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .progress-dot {
+                width: 10px;
+                height: 10px;
+            }
+
+            .compatibility {
+                font-size: 1.5rem;
+            }
+
+            .celebration-emoji {
+                font-size: 4rem;
+            }
+
+            .celebration-title {
+                font-size: 2rem;
+            }
+
+            .celebration-msg {
+                font-size: 1.1rem;
+                padding: 0 1rem;
+            }
+
+            .close-celebration {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .valentine-heart {
+                font-size: 3rem;
+            }
+
+            .proposal-text {
+                font-size: 1.2rem;
+            }
+
+            .btn-yes,
+            .btn-no {
+                font-size: 1rem;
+                padding: 0.8rem 2rem;
+                width: 100%;
+                max-width: 200px;
+            }
+
+            .love-quiz {
+                padding: 0.75rem;
+            }
+
+            .quiz-question {
+                font-size: 0.9rem;
+            }
+
+            .quiz-option {
+                font-size: 0.8rem;
+                padding: 0.6rem 0.8rem;
+            }
+
+            .celebration-emoji {
+                font-size: 3rem;
+            }
+
+            .celebration-title {
+                font-size: 1.75rem;
+            }
+
+            .celebration-msg {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
